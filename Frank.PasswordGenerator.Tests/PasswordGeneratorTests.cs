@@ -1,11 +1,30 @@
 using FluentAssertions;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Frank.PasswordGenerator.Tests
 {
     public class PasswordGeneratorTests
     {
+        [Fact]
+        public void GenerateManyPasswords_AllToBeUnique()
+        {
+            // Arrange
+            var passwordGenerator = new PasswordGenerator();
+            int passwordCount = 1000;
+
+            // Act
+            var resultList = new List<string>();
+            for (int i = 0; i < passwordCount; i++)
+            {
+                resultList.Add(passwordGenerator.GeneratePassword());
+            }
+
+            // Assert
+            resultList.Should().OnlyHaveUniqueItems();
+        }
+
         [Fact]
         public void GeneratePassword_NoVariantsSupplied_ThrowNullReferenceException()
         {

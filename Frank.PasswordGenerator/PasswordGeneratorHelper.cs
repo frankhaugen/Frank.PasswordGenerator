@@ -32,7 +32,7 @@ namespace Frank.PasswordGenerator
             return output;
         }
 
-        public string CombineCharactersToSingleString() => _characters.SelectMany(x => x.Value).Select(x => x).ToString();
+        public string CombineCharactersToSingleString() => string.Join("", _characters.SelectMany(x => x.Value).Select(x => x));
 
         public void AddCharacterVariantsToDictionary(CharacterVariant[] characterVariants)
         {

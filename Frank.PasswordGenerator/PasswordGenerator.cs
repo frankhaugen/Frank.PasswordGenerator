@@ -27,7 +27,10 @@ namespace Frank.PasswordGenerator
             _generatorHelper.EnsurePositiveCharacterCount(characterCount);
             _generatorHelper.EnsurePositiveCharacterVariantCount(characterVariants);
             _generatorHelper.AddCharacterVariantsToDictionary(characterVariants);
-            return _generatorHelper.CreatePasswordString(characterCount);
+
+            var password = _generatorHelper.CreatePasswordString(characterCount);
+            Dispose();
+            return password;
         }
 
         /// <summary>
@@ -41,7 +44,15 @@ namespace Frank.PasswordGenerator
             _characters.Add(CharacterVariant.Digits, Characters.Digits);
             _characters.Add(CharacterVariant.Lowercase, Characters.Lowercase);
             _characters.Add(CharacterVariant.Uppercase, Characters.Uppercase);
-            return _generatorHelper.CreatePasswordString(characterCount);
+
+            var password = _generatorHelper.CreatePasswordString(characterCount);
+            Dispose();
+            return password;
+        }
+
+        private void Dispose()
+        {
+            _characters.Clear();
         }
     }
 }
