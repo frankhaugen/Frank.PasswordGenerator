@@ -16,19 +16,41 @@ namespace Frank.PasswordGenerator
             _generatorHelper = new PasswordGeneratorHelper(_characters);
         }
 
+        //private const int _defaultPasswordLength = 12;
+
+        /// <summary>
+        /// The default password length that is reasonably easy to remember
+        /// </summary>
+        public const int DefaultPasswordLength = 12;
+
         /// <summary>
         /// Generate a password string
         /// </summary>
-        /// <param name="characterCount">A positive integer of how many characters the password should be</param>
         /// <param name="characterVariants">The variants of characters to use</param>
         /// <returns>The password string</returns>
-        public string GeneratePassword(int characterCount = 12, params CharacterVariant[] characterVariants)
+        public string GeneratePassword(params CharacterVariant[] characterVariants)
         {
-            _generatorHelper.EnsurePositiveCharacterCount(characterCount);
+            _generatorHelper.EnsurePositiveCharacterCount(DefaultPasswordLength);
             _generatorHelper.EnsurePositiveCharacterVariantCount(characterVariants);
             _generatorHelper.AddCharacterVariantsToDictionary(characterVariants);
 
-            var password = _generatorHelper.CreatePasswordString(characterCount);
+            var password = _generatorHelper.CreatePasswordString(DefaultPasswordLength);
+            Dispose();
+            return password;
+        }
+
+        /// <summary>
+        /// Generate a password string
+        /// </summary>
+        /// <param name="characterVariants">The variants of characters to use</param>
+        /// <returns>The password string</returns>
+        public string GeneratePassword(int passwordLength = DefaultPasswordLength, params CharacterVariant[] characterVariants)
+        {
+            _generatorHelper.EnsurePositiveCharacterCount(passwordLength);
+            _generatorHelper.EnsurePositiveCharacterVariantCount(characterVariants);
+            _generatorHelper.AddCharacterVariantsToDictionary(characterVariants);
+
+            var password = _generatorHelper.CreatePasswordString(passwordLength);
             Dispose();
             return password;
         }
@@ -38,7 +60,7 @@ namespace Frank.PasswordGenerator
         /// </summary>
         /// <param name="characterCount">A positive integer of how many characters the password should be</param>
         /// <returns>The password string</returns>
-        public string GeneratePassword(int characterCount = 12)
+        public string GeneratePassword(int characterCount = DefaultPasswordLength)
         {
             _generatorHelper.EnsurePositiveCharacterCount(characterCount);
             _characters.Add(CharacterVariant.Digits, Characters.Digits);
